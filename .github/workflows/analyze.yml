@@ -1,0 +1,23 @@
+name: Analyze
+
+on:
+  pull_request:
+  push:
+  schedule:
+  - cron: 0 0 * * 0
+  workflow_dispatch:
+
+jobs:
+  job:
+    name: Analyze
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Init
+      uses: github/codeql-action/init@v3
+
+    - name: Analyze
+      uses: github/codeql-action/analyze@v3
