@@ -1,21 +1,10 @@
 .. raw:: html
 
     <p align="center">
-        <a href="https://github.com/ShineyDev/utility/actions/workflows/analyze.yml?query=branch%3Amain+event%3Apush">
-            <img alt="Analyze Status" src="https://github.com/ShineyDev/utility/actions/workflows/analyze.yml/badge.svg?branch=main&event=push" />
-        </a>
-
-        <a href="https://github.com/ShineyDev/utility/actions/workflows/build.yml?query=branch%3Amain+event%3Apush">
-            <img alt="Build Status" src="https://github.com/ShineyDev/utility/actions/workflows/build.yml/badge.svg?branch=main&event=push" />
-        </a>
-
-        <a href="https://github.com/ShineyDev/utility/actions/workflows/check.yml?query=branch%3Amain+event%3Apush">
-            <img alt="Check Status" src="https://github.com/ShineyDev/utility/actions/workflows/check.yml/badge.svg?branch=main&event=push" />
-        </a>
-
-        <a href="https://github.com/ShineyDev/utility/actions/workflows/lint.yml?query=branch%3Amain+event%3Apush">
-            <img alt="Lint Status" src="https://github.com/ShineyDev/utility/actions/workflows/lint.yml/badge.svg?branch=main&event=push" />
-        </a>
+        <a href="https://github.com/ShineyDev/utility/actions/workflows/analyze.yml?query=branch%3Amain+event%3Apush"><img alt="Analyze Status" src="https://github.com/ShineyDev/utility/actions/workflows/analyze.yml/badge.svg?branch=main&event=push" /></a>
+        <a href="https://github.com/ShineyDev/utility/actions/workflows/build.yml?query=branch%3Amain+event%3Apush"><img alt="Build Status" src="https://github.com/ShineyDev/utility/actions/workflows/build.yml/badge.svg?branch=main&event=push" /></a>
+        <a href="https://github.com/ShineyDev/utility/actions/workflows/check.yml?query=branch%3Amain+event%3Apush"><img alt="Check Status" src="https://github.com/ShineyDev/utility/actions/workflows/check.yml/badge.svg?branch=main&event=push" /></a>
+        <a href="https://github.com/ShineyDev/utility/actions/workflows/lint.yml?query=branch%3Amain+event%3Apush"><img alt="Lint Status" src="https://github.com/ShineyDev/utility/actions/workflows/lint.yml/badge.svg?branch=main&event=push" /></a>
     </p>
 
 ----------
