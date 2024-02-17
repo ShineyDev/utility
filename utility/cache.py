@@ -33,23 +33,20 @@ if TYPE_CHECKING:
     def cache_generator(
         wrapped: _GeneratorFunc[_P, _T],
         /,
-    ) -> _GeneratorFunc[_P, _T]:
-        ...
+    ) -> _GeneratorFunc[_P, _T]: ...
 
     @overload
     def cache_generator(
         *,
         max_size: int | None = ...,
-    ) -> Callable[[_GeneratorFunc[_P, _T]], _GeneratorFunc[_P, _T]]:
-        ...
+    ) -> Callable[[_GeneratorFunc[_P, _T]], _GeneratorFunc[_P, _T]]: ...
 
     @overload
     def cache_generator(
         *,
         max_size: int | None = ...,
         wrapper: Callable[[_Generator[_T]], _U],
-    ) -> Callable[[_GeneratorFunc[_P, _T]], Callable[_P, _U]]:
-        ...
+    ) -> Callable[[_GeneratorFunc[_P, _T]], Callable[_P, _U]]: ...
 
 
 def cache_generator(
