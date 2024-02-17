@@ -5,16 +5,16 @@ utility: A Python package with utilities I use in several of my other projects.
 from __future__ import annotations
 from typing import NamedTuple
 
-from utility.cache import *
-from utility.cache import __all__ as _cache__all__
-from utility.typing import *
-from utility.typing import __all__ as _typing__all__
-from utility.version import *
-from utility.version import __all__ as _version__all__
-from utility.warning import *
-from utility.warning import __all__ as _warning__all__
-from utility.wrapper import *
-from utility.wrapper import __all__ as _wrapper__all__
+from .cache import *
+from .cache import __all__ as _cache__all__
+from .typing import *
+from .typing import __all__ as _typing__all__
+from .version import *
+from .version import __all__ as _version__all__
+from .warning import *
+from .warning import __all__ as _warning__all__
+from .wrapper import *
+from .wrapper import __all__ as _wrapper__all__
 
 
 class _VersionInfo(NamedTuple):

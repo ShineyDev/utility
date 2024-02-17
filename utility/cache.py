@@ -16,8 +16,8 @@ if TYPE_CHECKING:
 import collections
 import typing
 
-from utility.typing import MISSING
-from utility.version import SUPPORTS_GENERICBUILTINS
+from .typing import MISSING
+from .version import SUPPORTS_GENERICBUILTINS
 
 
 def _make_key(

@@ -14,9 +14,9 @@ import datetime
 import pathlib
 import warnings
 
-from utility.typing import MISSING
-from utility.version import SUPPORTS_WARNINGSKIPS
-from utility.wrapper import wrap
+from .typing import MISSING
+from .version import SUPPORTS_WARNINGSKIPS
+from .wrapper import wrap
 
 
 if TYPE_CHECKING:
