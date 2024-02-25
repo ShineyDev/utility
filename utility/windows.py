@@ -65,3 +65,10 @@ class OutputConsoleMode(enum.IntFlag):
     DISABLE_NEWLINE_AUTO_RETURN        = 0b01000
     ENABLE_LVB_GRID_WORLDWIDE          = 0b10000
     # fmt: on
+
+
+__all__ = [
+    "get_console_mode",
+    "InputConsoleMode",
+    "OutputConsoleMode",
+]

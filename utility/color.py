@@ -29,3 +29,8 @@ def supports_color(
         stream = sys.stdout
 
     return stream.isatty()
+
+
+__all__ = [
+    "supports_color",
+]
