@@ -14,6 +14,7 @@ from .typing import MISSING
 
 assert sys.platform == "win32"
 
+
 import ctypes.wintypes
 import msvcrt
 
