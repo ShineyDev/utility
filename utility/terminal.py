@@ -15,6 +15,31 @@ if sys.platform == "win32":
     from .windows import get_console_mode, OutputConsoleMode
 
 
+def apply_ansi_sgr(
+    string: str,
+    sgr: str | tuple[str, str] | None,
+    /,
+    *,
+    stream: TextIO = MISSING,
+) -> str:
+    """
+    TODO
+    """
+
+    if sgr is None:
+        return string
+
+    if stream is not MISSING and not wants_ansi(stream):
+        return string
+
+    if isinstance(sgr, str):
+        sgr_start, sgr_end = sgr, "0"
+    else:
+        sgr_start, sgr_end = sgr
+
+    return f"\x1B[{sgr_start}m{string}\x1B[{sgr_end}m"
+
+
 def supports_ansi(
     stream: TextIO = MISSING,
     /,
