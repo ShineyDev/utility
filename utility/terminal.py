@@ -117,6 +117,7 @@ def wants_ansi_sgr(
 
 
 __all__ = [
+    "apply_ansi_sgr",
     "supports_ansi",
     "wants_ansi_sgr",
 ]
