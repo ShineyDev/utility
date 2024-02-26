@@ -13,7 +13,7 @@ if sys.platform == "win32":
     from .windows import get_console_mode, OutputConsoleMode
 
 
-def supports_color(
+def supports_ansi(
     stream: TextIO = MISSING,
     /,
 ) -> bool:
@@ -32,5 +32,5 @@ def supports_color(
 
 
 __all__ = [
-    "supports_color",
+    "supports_ansi",
 ]
