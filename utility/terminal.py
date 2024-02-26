@@ -63,17 +63,17 @@ def supports_ansi(
     return stream.isatty()
 
 
-def wants_ansi(
+def wants_ansi_sgr(
     stream: TextIO = MISSING,
     /,
 ) -> bool:
     """
     Determines whether a stream advertises that it both wants and
-    supports ANSI escape sequences to be used in its output.
+    supports ANSI SGR escape sequences to be used in its output.
 
     Specifically, this function does the following, in this order:
 
-    - If the stream advertises that it wants ANSI escape sequences
+    - If the stream advertises that it wants ANSI SGR escape sequences
       continue, otherwise return False.
         - On Python 3.13 and higher, if the environment variable
           |PYTHON_COLORS| is set to ``"0"`` return False.
@@ -97,7 +97,7 @@ def wants_ansi(
     -------
     :class:`bool`
         Whether the stream advertises that it both supports and wants
-        ANSI escape sequences to be used in its output.
+        ANSI SGR escape sequences to be used in its output.
     """
 
     if sys.version_info >= (3, 13):
@@ -118,5 +118,5 @@ def wants_ansi(
 
 __all__ = [
     "supports_ansi",
-    "wants_ansi",
+    "wants_ansi_sgr",
 ]
