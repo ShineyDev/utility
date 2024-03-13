@@ -144,21 +144,6 @@ def cache_generator(
         return decorator(wrapped)
 
 
-class CacheStatistics:  # TODO: move this implementation directly into Cache; len(Cache)/Cache.size, Cache.hits
-    """
-    TODO
-    """
-
-    def __init__(
-        self: Self,
-        /,
-    ) -> None:
-        self.size: int = 0
-
-        self.hits: int = 0
-        self.misses: int = 0
-
-
 _K = TypeVar("_K")
 _V = TypeVar("_V")
 
@@ -170,7 +155,8 @@ class Cache(Generic[_K, _V]):
 
     __slots__ = (
         "_cache",
-        "statistics",
+        "hits",
+        "misses",
     )
 
     def __init__(
@@ -179,7 +165,8 @@ class Cache(Generic[_K, _V]):
     ) -> None:
         self._cache: dict[_K, _V] = dict()
 
-        self.statistics: CacheStatistics = CacheStatistics()
+        self.hits: int = 0
+        self.misses: int = 0
 
     def __contains__(
         self: Self,
@@ -196,8 +183,6 @@ class Cache(Generic[_K, _V]):
             del self._cache[key]
         except KeyError:
             raise
-        else:
-            self.statistics.size -= 1
 
     def __getitem__(
         self: Self,
@@ -207,10 +192,10 @@ class Cache(Generic[_K, _V]):
         try:
             value = self._cache[key]
         except KeyError:
-            self.statistics.misses += 1
+            self.misses += 1
             raise
         else:
-            self.statistics.hits += 1
+            self.hits += 1
             return value
 
     def __setitem__(
@@ -219,10 +204,20 @@ class Cache(Generic[_K, _V]):
         value: _V,
         /,
     ) -> None:
-        if key not in self._cache:
-            self.statistics.size += 1
-
         self._cache[key] = value
+
+    def __len__(
+        self: Self,
+        /,
+    ) -> int:
+        return len(self._cache)
+
+    @property
+    def size(
+        self: Self,
+        /,
+    ) -> int:
+        return len(self)
 
     def clear(
         self: Self,
@@ -234,8 +229,6 @@ class Cache(Generic[_K, _V]):
 
         self._cache.clear()
 
-        self.statistics.size = 0
-
     def reset(
         self: Self,
         /,
@@ -246,8 +239,8 @@ class Cache(Generic[_K, _V]):
 
         self.clear()
 
-        self.statistics.hits = 0
-        self.statistics.misses = 0
+        self.hits = 0
+        self.misses = 0
 
 
 class SizedCache(Cache[_K, _V]):
