@@ -1,8 +1,9 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, TypeVar
+from typing import Generic, TYPE_CHECKING, TypeVar
 
 if TYPE_CHECKING:
-    from collections.abc import Callable, Collection, Generator
+    from collections import OrderedDict
+    from collections.abc import Callable, Generator
     from typing import Any, overload
     from typing_extensions import TypeAlias, ParamSpec, Self
 
@@ -14,10 +15,8 @@ if TYPE_CHECKING:
     _GeneratorFunc: TypeAlias = Callable[_P, Generator[_T, None, Any]]
 
 import collections
-import typing
 
 from .typing import MISSING
-from .version import SUPPORTS_GENERICBUILTINS
 
 
 def _make_key(
@@ -68,10 +67,10 @@ def cache_generator(
             wrapped: _GeneratorFunc[_P, _T],
             /,
         ) -> Callable[_P, _U]:
-            cache: dict[int, _U] | None
+            cache: Cache[int, _U] | None
 
             if max_size == -1 or max_size is None:
-                cache = dict()
+                cache = Cache()
             else:
                 cache = LRUCache(max_size=max_size)
 
@@ -98,10 +97,10 @@ def cache_generator(
             wrapped: _GeneratorFunc[_P, _T],
             /,
         ) -> _GeneratorFunc[_P, _T]:
-            cache: dict[int, tuple[Generator[_T, None, Any], list[_T], bool]]
+            cache: Cache[int, tuple[Generator[_T, None, Any], list[_T], bool]]
 
             if max_size == -1 or max_size is None:
-                cache = dict()
+                cache = Cache()
             else:
                 cache = LRUCache(max_size=max_size)
 
@@ -145,11 +144,7 @@ def cache_generator(
         return decorator(wrapped)
 
 
-_K = TypeVar("_K")
-_V = TypeVar("_V")
-
-
-class LRUCache(collections.OrderedDict[_K, _V] if SUPPORTS_GENERICBUILTINS else typing.OrderedDict[_K, _V]):  # type: ignore
+class CacheStatistics:  # TODO: move this implementation directly into Cache; len(Cache)/Cache.size, Cache.hits
     """
     TODO
     """
@@ -157,30 +152,164 @@ class LRUCache(collections.OrderedDict[_K, _V] if SUPPORTS_GENERICBUILTINS else 
     def __init__(
         self: Self,
         /,
+    ) -> None:
+        self.size: int = 0
+
+        self.hits: int = 0
+        self.misses: int = 0
+
+
+_K = TypeVar("_K")
+_V = TypeVar("_V")
+
+
+class Cache(Generic[_K, _V]):
+    """
+    TODO
+    """
+
+    __slots__ = (
+        "_cache",
+        "statistics",
+    )
+
+    def __init__(
+        self: Self,
+        /,
+    ) -> None:
+        self._cache: dict[_K, _V] = dict()
+
+        self.statistics: CacheStatistics = CacheStatistics()
+
+    def __contains__(
+        self: Self,
+        key: _K,
+    ) -> bool:
+        return key in self._cache
+
+    def __delitem__(
+        self: Self,
+        key: _K,
+        /,
+    ) -> None:
+        try:
+            del self._cache[key]
+        except KeyError:
+            raise
+        else:
+            self.statistics.size -= 1
+
+    def __getitem__(
+        self: Self,
+        key: _K,
+        /,
+    ) -> _V:
+        try:
+            value = self._cache[key]
+        except KeyError:
+            self.statistics.misses += 1
+            raise
+        else:
+            self.statistics.hits += 1
+            return value
+
+    def __setitem__(
+        self: Self,
+        key: _K,
+        value: _V,
+        /,
+    ) -> None:
+        if key not in self._cache:
+            self.statistics.size += 1
+
+        self._cache[key] = value
+
+    def clear(
+        self: Self,
+        /,
+    ) -> None:
+        """
+        Clears the cache.
+        """
+
+        self._cache.clear()
+
+        self.statistics.size = 0
+
+    def reset(
+        self: Self,
+        /,
+    ) -> None:
+        """
+        Resets the cache.
+        """
+
+        self.clear()
+
+        self.statistics.hits = 0
+        self.statistics.misses = 0
+
+
+class SizedCache(Cache[_K, _V]):
+    """
+    TODO
+    """
+
+    __slots__ = (
+        "max_size",
+    )
+
+    def __init__(
+        self: Self,
+        /,
         *,
         max_size: int,
     ) -> None:
-        super().__init__()
+        if max_size < 0:
+            raise ValueError("max_size must be 0 or a positive integer")
 
-        self.max_size = max_size
+        self.max_size: int = max_size
+
+
+class LRUCache(SizedCache[_K, _V]):
+    """
+    TODO
+    """
+
+    __slots__ = ()
+
+    def __init__(
+        self: Self,
+        /,
+        *,
+        max_size: int,
+    ) -> None:
+        super().__init__(max_size=max_size)
+
+        self._cache: OrderedDict = collections.OrderedDict()
 
     def __getitem__(self, key: _K) -> _V:
-        value = super().__getitem__(key)
-        self.move_to_end(key)
-
-        return value
+        try:
+            value = super().__getitem__(key)
+        except KeyError:
+            raise
+        else:
+            self._cache.move_to_end(key)
+            return value
 
     def __setitem__(self, key: _K, value: _V) -> None:
-        if key in self:
-            self.move_to_end(key)
+        if key in self._cache.keys():
+            self._cache.move_to_end(key)
 
         super().__setitem__(key, value)
 
-        if len(self) > self.max_size:
-            self.popitem(last=False)
+        while len(self._cache) > self.max_size:
+            self._cache.popitem(last=False)
 
 
 __all__ = [
     "cache_generator",
+    "Cache",
+    "SizedCache",
     "LRUCache",
 ]
