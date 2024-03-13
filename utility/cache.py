@@ -153,11 +153,7 @@ class Cache(Generic[_K, _V]):
     TODO
     """
 
-    __slots__ = (
-        "_cache",
-        "hits",
-        "misses",
-    )
+    __slots__ = ("_cache", "hits", "misses")
 
     def __init__(
         self: Self,
@@ -248,9 +244,7 @@ class SizedCache(Cache[_K, _V]):
     TODO
     """
 
-    __slots__ = (
-        "max_size",
-    )
+    __slots__ = ("max_size",)
 
     def __init__(
         self: Self,
