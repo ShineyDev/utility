@@ -290,7 +290,7 @@ class LRUCache(SizedCache[_K, _V]):
     ) -> None:
         super().__init__(max_size=max_size)
 
-        self._cache: OrderedDict = collections.OrderedDict()
+        self._cache: OrderedDict[_K, _V] = collections.OrderedDict()
 
     def __getitem__(self, key: _K) -> _V:
         try:
