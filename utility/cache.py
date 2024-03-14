@@ -244,7 +244,7 @@ class SizedCache(Cache[_K, _V]):
     TODO
     """
 
-    __slots__ = ("max_size",)
+    __slots__ = ("_max_size",)
 
     def __init__(
         self: Self,
@@ -252,10 +252,27 @@ class SizedCache(Cache[_K, _V]):
         *,
         max_size: int,
     ) -> None:
-        if max_size < 0:
+        self._max_size: int = MISSING
+
+        self.max_size = max_size
+
+    @property
+    def max_size(
+        self: Self,
+        /,
+    ) -> int:
+        return self._max_size
+
+    @max_size.setter
+    def max_size(
+        self: Self,
+        value: int,
+        /,
+    ) -> None:
+        if value < 0:
             raise ValueError("max_size must be 0 or a positive integer")
 
-        self.max_size: int = max_size
+        self._max_size = value
 
 
 class LRUCache(SizedCache[_K, _V]):
