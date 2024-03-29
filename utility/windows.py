@@ -78,6 +78,62 @@ def get_console_mode(
     return ConsoleMode(mode)
 
 
+def _set_console_mode(
+    handle: int,
+    mode: int,
+    /,
+) -> None:
+    """
+    |internal|
+
+    TODO
+    """
+
+    handle_c = ctypes.wintypes.HANDLE(handle)
+    mode_c = ctypes.wintypes.DWORD(mode)
+
+    if ctypes.windll.kernel32.SetConsoleMode(handle_c, mode_c) == 0:
+        raise ctypes.WinError(ctypes.get_last_error())
+
+    return None
+
+
+def set_console_mode(
+    mode: ConsoleMode,
+    /,
+    *,
+    stream: TextIO,
+) -> None:
+    """
+    TODO
+    """
+
+    mode_i = int(mode)
+
+    # NOTE: output_newline_auto_return is inverted to DISABLE_* here
+    mode_i ^= 0b01000 << 12
+
+    if stream is MISSING:
+        input_handle: int = ctypes.windll.kernel32.GetStdHandle(subprocess.STD_INPUT_HANDLE)
+        input_mode = mode_i >> 1 & 0b11111
+
+        _set_console_mode(input_handle, input_mode)
+
+        output_handle: int = ctypes.windll.kernel32.GetStdHandle(subprocess.STD_OUTPUT_HANDLE)
+        output_mode = mode_i >> 12 & 0b1111111111
+
+        _set_console_mode(output_handle, output_mode)
+    else:
+        stream_handle = msvcrt.get_osfhandle(stream.fileno())
+
+        if stream.writable():  # TODO(console-writable): is this as accurate as it needs to be?
+            stream_mode = mode_i >> 12 & 0b1111111111
+        else:
+            stream_mode = mode_i >> 1 & 0b11111
+
+        _set_console_mode(stream_handle, stream_mode)
+
+
 class _F_ConsoleModeInput(enum.IntFlag):
     # fmt: off
     ENABLE_PROCESSED_INPUT        = 0b0000000001
