@@ -12,7 +12,7 @@ from .typing import MISSING
 
 
 if sys.platform == "win32":
-    from .windows import get_console_mode, OutputConsoleMode
+    from .windows import get_console_mode, ConsoleMode
 
 
 def apply_ansi_sgr(
@@ -50,12 +50,14 @@ def supports_ansi(
 
     if sys.platform == "win32":
         try:
-            console_mode = get_console_mode(stream)
+            console_mode = get_console_mode(stream=stream)
         except ctypes.WinError:
             return False
         else:
-            if isinstance(console_mode, OutputConsoleMode):
-                return bool(console_mode & OutputConsoleMode.ENABLE_VIRTUAL_TERMINAL_PROCESSING)
+            if isinstance(console_mode, ConsoleMode):
+                return bool(console_mode & ConsoleMode.output_virtual_terminal_processing)
+            else:
+                return False
 
     if stream is MISSING:
         stream = sys.stdout
