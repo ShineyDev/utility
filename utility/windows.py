@@ -252,5 +252,6 @@ class ConsoleMode(enum.IntFlag):
 
 __all__ = [
     "get_console_mode",
+    "set_console_mode",
     "ConsoleMode",
 ]
