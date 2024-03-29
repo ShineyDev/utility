@@ -68,9 +68,9 @@ def get_console_mode(
         stream_mode = _get_console_mode(stream_handle)
 
         if stream.writable():  # TODO(console-writable): is this as accurate as it needs to be?
-            mode &= mode << 12
+            mode &= stream_mode << 12
         else:
-            mode &= mode << 1
+            mode &= stream_mode << 1
 
     # NOTE: DISABLE_NEWLINE_AUTO_RETURN is normalized to ENABLE_* here.
     mode ^= 0b01000 << 12
