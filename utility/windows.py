@@ -100,7 +100,7 @@ def _read_console_input(
     if ctypes.windll.kernel32.ReadConsoleInputW(handle_c, ctypes.byref(buffer_c), buffer_size_c, ctypes.byref(count_c)) == 0:
         raise ctypes.WinError(ctypes.get_last_error())
 
-    return buffer_c[:count_c.value]
+    return buffer_c[:count_c.value]  # fmt: skip
 
 
 def read_console_input(
@@ -234,7 +234,7 @@ class _S_MENU_EVENT_RECORD(ctypes.Structure):
 class _S_MOUSE_EVENT_RECORD(ctypes.Structure):
     _fields_ = [
         ("dwMousePosition", _S_COORD),
-
+        #
         # NOTE: we split dwButtonState into two words here. the high
         #       word of dwButtonState is a signed int which determines
         #       scroll delta, which was 120 (prior to Windows 10.22000,
@@ -243,7 +243,7 @@ class _S_MOUSE_EVENT_RECORD(ctypes.Structure):
         #       repeating outside of this api now.
         ("wButtonState", ctypes.wintypes.WORD),
         ("wScrollDelta", ctypes.wintypes.SHORT),
-
+        #
         ("dwControlKeyState", ctypes.wintypes.DWORD),
         ("dwEventFlags", ctypes.wintypes.DWORD),
     ]
@@ -514,7 +514,7 @@ class _F_ControlKeyState(enum.IntFlag):
     ENHANCED_KEY       = 0b100000000
     # fmt: on
 
-    
+
 class ControlKeyState(enum.IntFlag):
     """
     TODO
