@@ -728,22 +728,22 @@ class ConsoleMode(enum.IntFlag):
     TODO
     """
 
-    input_mouse_events = _F_ConsoleModeInput.ENABLE_MOUSE_INPUT
+    input_mouse_events = _F_ConsoleModeInput.ENABLE_MOUSE_INPUT << 1
     """
     TODO
     """
 
-    input_insert = _F_ConsoleModeInput.ENABLE_INSERT_MODE 
+    input_insert = _F_ConsoleModeInput.ENABLE_INSERT_MODE << 1
     """
     TODO
     """
 
-    input_edit = _F_ConsoleModeInput.ENABLE_QUICK_EDIT_MODE
+    input_edit = _F_ConsoleModeInput.ENABLE_QUICK_EDIT_MODE << 1
     """
     TODO
     """
 
-    input_extended_flags = _F_ConsoleModeInput.ENABLE_EXTENDED_FLAGS
+    input_extended_flags = _F_ConsoleModeInput.ENABLE_EXTENDED_FLAGS << 1
     """
     TODO
     """
