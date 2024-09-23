@@ -41,7 +41,7 @@ SUPPORTS_MOREORIGBASES = PY_312  # python/cpython@0056701
 SUPPORTS_SYSLASTEXC = PY_312  # sys.last_exc
 SUPPORTS_SYSMONITORING = PY_312  # sys.monitoring
 SUPPORTS_TYPEKEYWORD = PY_312  # type T
-SUPPORTS_WARNINGSKIPS = PY_312
+SUPPORTS_WARNINGSKIPS = PY_312  # warnings.warn(skip_file_prefixes=...)
 
 
 __all__ = [
