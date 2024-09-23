@@ -1,9 +1,9 @@
 from __future__ import annotations
-from asyncio import iscoroutine
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from typing import Any, Awaitable, Callable, Coroutine, TypeVar
+    from collections.abc import Awaitable, Callable
+    from typing import Any, TypeVar
     from typing_extensions import ParamSpec
 
     _P = ParamSpec("_P")
