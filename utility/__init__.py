@@ -7,6 +7,8 @@ from typing import NamedTuple
 
 import sys
 
+from .asyncio import *
+from .asyncio import __all__ as _asyncio__all__
 from .cache import *
 from .cache import __all__ as _cache__all__
 from .call import *
@@ -43,6 +45,7 @@ version_info: _VersionInfo = _VersionInfo(0, 1, 0, "alpha", 0)
 
 
 __all__ = [  # pyright: ignore[reportUnsupportedDunderAll]
+    *_asyncio__all__,
     *_cache__all__,
     *_call__all__,
     *_terminal__all__,
