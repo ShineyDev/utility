@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from collections.abc import Awaitable, Callable
-    from typing import Any, TypeVar
+    from typing import TypeVar
     from typing_extensions import Concatenate, ParamSpec
 
     _P = ParamSpec("_P")
