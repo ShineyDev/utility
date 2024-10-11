@@ -28,15 +28,14 @@ async def wait_or_raise(
     for task in pending:
         task.cancel()
 
-    if pending:
-        for task in done:
-            exception = task.exception()
+    exceptions = list()
 
-            if exception is not None:
-                raise exception
+    for task in done:
+        exceptions.append(task.exception())
 
-        # NOTE: we should never get here
-        raise RuntimeError
+    for exception in exceptions:
+        if exception is not None:
+            raise exception
 
     return done
 
