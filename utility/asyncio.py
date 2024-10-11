@@ -20,7 +20,7 @@ async def wait_or_raise(
     timeout: float = MISSING,
 ) -> Iterable[Task[_T]]:
     done, pending = await asyncio.wait(
-        (asyncio.Task(aw) for aw in aws),
+        (*(asyncio.Task(aw) for aw in aws),),
         timeout=timeout if timeout is not MISSING else None,
         return_when=asyncio.FIRST_EXCEPTION,
     )
