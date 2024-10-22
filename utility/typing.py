@@ -213,7 +213,7 @@ def resolve_annotations(
                     types.MethodWrapperType,
                     types.ModuleType,
                     types.WrapperDescriptorType,
-                )
+                ),
             ):
                 return dict()
             else:
