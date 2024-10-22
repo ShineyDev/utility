@@ -164,7 +164,7 @@ def resolve_annotations(
 
     if isinstance(thing, type):
         for base in reversed(thing.__mro__):  # TODO: this can be optimized further by reading forward and never overwriting
-            if filter_mro is not MISSING and filter_mro(base):
+            if filter_mro is not MISSING and not filter_mro(base):
                 continue
 
             if getattr(base, "__no_type_check__", None):
