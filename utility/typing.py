@@ -11,7 +11,7 @@ import sys
 import types
 import typing
 
-from .version import PY_39, SUPPORTS_ANNOTATED, SUPPORTS_FLATLITERAL, SUPPORTS_TYPEKEYWORD, SUPPORTS_UNIONTYPE
+from .version import PY_39, SUPPORTS_ANNOTATED, SUPPORTS_FLATLITERAL, SUPPORTS_ISTYPEDDICT, SUPPORTS_TYPEKEYWORD, SUPPORTS_UNIONTYPE
 
 
 if PY_39 and not TYPE_CHECKING:
@@ -34,6 +34,22 @@ MISSING: Any = _MissingSentinel()
 """
 TODO
 """
+
+
+def is_typeddict(
+    type: type[object],
+    /,
+) -> bool:  # NOTE: cannot TypeGuard[type[TypedDict]] here
+    """
+
+    """
+
+    origin = typing.get_origin(type) or type
+
+    if SUPPORTS_ISTYPEDDICT:
+        return typing.is_typeddict(origin)  # type: ignore  # typing.is_typeddict does exist
+    else:
+        return isinstance(origin, typing._TypedDictMeta)  # type: ignore  # typing._TypedDictMeta does exist
 
 
 def resolve_annotation(
@@ -263,6 +279,7 @@ def resolve_annotations(
 
 __all__ = [
     "MISSING",
+    "is_typeddict",
     "resolve_annotation",
     "resolve_annotations",
 ]
