@@ -160,7 +160,7 @@ def resolve_annotations(
     if getattr(thing, "__no_type_check__", None):
         return dict()
 
-    annotations = dict()
+    annotations: dict[str, Any] = dict()
 
     if isinstance(thing, type):
         for base in reversed(thing.__mro__):  # TODO: this can be optimized further by reading forward and never overwriting
