@@ -102,7 +102,7 @@ def resolve_annotation(
 
         if SUPPORTS_ANNOTATED and origin is Annotated:
             args = (resolve_annotation(args[0], globals=globals, locals=locals), *args[1:])
-        else:
+        elif origin is not typing.Literal:
             args = tuple(map(lambda arg: resolve_annotation(arg, locals=locals, globals=globals), args))
 
         if SUPPORTS_UNIONTYPE and origin is types.UnionType:  # type: ignore  # types.UnionType does exist
